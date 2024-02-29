@@ -13,5 +13,6 @@ https://github.com/pradhandebasish2046/chat-bot.git
 ### STEP 03
 Run below commands
 ```bash
-pip install -r requirements.txt
+docker build . -t chat_bot
+docker run -p 8501:8501 chat_bot
 ```
