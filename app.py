@@ -38,6 +38,10 @@ async def start():
         content=default_output
     ).send()
 
+    await cl.Message(
+        content="PROMPT INSTRUCTION: PLEASE USE KEYWORD LIKE 😊PLOT😊 IN YOUR PROMPT"
+    ).send()
+
 
 @cl.on_message
 async def main(message: cl.Message):
@@ -86,7 +90,7 @@ async def main(message: cl.Message):
             ).send()
         except subprocess.CalledProcessError as e:
             await cl.Message(
-                content="Again Getting error😢. Please give me a better prompt"
+                content="Again Getting error😢. Please give me a better prompt."
             ).send()
 
     image_extensions = ('.png', '.jpg', '.jpeg')

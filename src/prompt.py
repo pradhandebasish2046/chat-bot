@@ -17,7 +17,6 @@ If the user requests plots, save the plot instead of displaying it.
 Avoid including explanations or comments in the returned code.
 Do not give backticks in start or end of the code. 
 """
-    print(instruction)
     return instruction
 
 
@@ -32,5 +31,4 @@ Now give me the updated error free code.
 Provide only the Python and avoid including explanations or comments in the returned code.
 Do not give backticks in start or end of the code. 
 """
-    print(instruction)
     return instruction
