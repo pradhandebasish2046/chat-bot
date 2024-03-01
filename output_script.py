@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 file_location = open('uploaded_file_location.txt', 'r').readline().strip()
 df = pd.read_csv(file_location)
 
-df['SepalLengthCm'].hist()
-plt.title('Distribution of Sepal Length')
-plt.xlabel('Sepal Length (cm)')
-plt.ylabel('Frequency')
-plt.savefig('sepal_length_distribution.png')
+plt.figure(figsize=(8,8))
+df['Species'].value_counts().plot.pie(autopct='%1.1f%%')
+plt.ylabel('')
+plt.title('Pie Chart of Species')
+plt.savefig('pie_chart_species.png')

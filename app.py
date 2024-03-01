@@ -1,7 +1,7 @@
 import chainlit as cl
 import pandas as pd
 from src.llm import generate_code
-from src.utils import generate_default_output, dataframe_header_details
+from src.utils import generate_default_output, dataframe_header_details, remove_img
 import subprocess
 import os
 import sys
@@ -30,13 +30,7 @@ async def start():
     with open(uploaded_file_location, 'w') as f:
         f.write(path)
 
-    image_extensions = ('.png', '.jpg', '.jpeg')
-    all_files = os.listdir(os.getcwd())
-    image_files = [
-        file for file in all_files if file.lower().endswith(image_extensions)]
-    for img_file in image_files:
-        os.remove(img_file)
-
+    remove_img()
     df = pd.read_csv(path)
     default_output = generate_default_output(df)
     dataframe_header_details(df, header_detail_file_location)
@@ -57,7 +51,7 @@ async def main(message: cl.Message):
         os.remove('output_script.py')
     with open('output_script.py', 'w') as f:
         f.write(response)  # Storing generated code in a .py file
-
+    remove_img()
     # Execute output_script.py
     python_interpreter = sys.executable
     subprocess.run([python_interpreter, 'output_script.py'])

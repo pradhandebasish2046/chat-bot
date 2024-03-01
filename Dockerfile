@@ -8,6 +8,3 @@ RUN pip install -r requirements.txt
 
 # do not change the arguments
 ENTRYPOINT ["chainlit", "run", "app.py", "--host=0.0.0.0", "--port=8501", "--headless"]
-
-COPY output_script.py /app/
-CMD ["python", "output_script.py"]

@@ -30,3 +30,12 @@ def dataframe_header_details(df, header_detail_file_location):
     with open(header_detail_file_location, 'w') as f:
         for key, value in df.dtypes.to_dict().items():
             f.write(f"{key}:{value}\n")
+
+
+def remove_img():
+    image_extensions = ('.png', '.jpg', '.jpeg')
+    all_files = os.listdir(os.getcwd())
+    image_files = [
+        file for file in all_files if file.lower().endswith(image_extensions)]
+    for img_file in image_files:
+        os.remove(img_file)
