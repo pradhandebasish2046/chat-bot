@@ -57,6 +57,11 @@ async def main(message: cl.Message):
         python_interpreter = sys.executable
         result = subprocess.run([python_interpreter, 'output_script.py'],
                                 check=True, stderr=subprocess.PIPE)
+        """
+        check=True ensures that an exception is raised 
+        if the subprocess returns a non-zero exit code. 
+        The stderr=subprocess.PIPE captures the error output.
+        """
         await cl.Message(
             content="Successfully executed the code😊"
         ).send()
@@ -74,13 +79,14 @@ async def main(message: cl.Message):
             f.write(response)  # Storing generated code in a .py file
         try:
             python_interpreter = sys.executable
-            subprocess.run([python_interpreter, 'output_script.py'])
+            result = subprocess.run([python_interpreter, 'output_script.py'],
+                                    check=True, stderr=subprocess.PIPE)
             await cl.Message(
                 content="Successfully executed the code in second run😊"
             ).send()
-        except Exception as e:
+        except subprocess.CalledProcessError as e:
             await cl.Message(
-                content="Again Getting error😢. Please modify your prompt"
+                content="Again Getting error😢. Please give me a better prompt"
             ).send()
 
     image_extensions = ('.png', '.jpg', '.jpeg')
