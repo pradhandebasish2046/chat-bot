@@ -1,5 +1,15 @@
 # chat-bot
 
+
+https://github.com/pradhandebasish2046/chat-bot/assets/84903046/54cacaa3-bef7-48be-99c9-57fbc816510a
+
+# Scope of Improvement
+1. Prompt Engineering part to handle error
+2. Add more default visualization
+3. Latency
+
+
+
 # How to run?
 ### STEPS:
 
