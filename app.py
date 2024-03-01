@@ -1,6 +1,6 @@
 import chainlit as cl
 import pandas as pd
-from src.llm import generate_code
+from src.llm import generate_code, generate_code_again
 from src.utils import generate_default_output, dataframe_header_details, remove_img
 import subprocess
 import os
@@ -53,10 +53,36 @@ async def main(message: cl.Message):
         f.write(response)  # Storing generated code in a .py file
     remove_img()
     # Execute output_script.py
-    python_interpreter = sys.executable
-    subprocess.run([python_interpreter, 'output_script.py'])
-    # subprocess.run(["python", "output_script.py"])
-    # subprocess.run([sys.executable, "-m", ".venv/bin/activate","&&", "python", "output_script.py"], shell=True)
+    try:
+        python_interpreter = sys.executable
+        result = subprocess.run([python_interpreter, 'output_script.py'],
+                                check=True, stderr=subprocess.PIPE)
+        await cl.Message(
+            content="Successfully executed the code😊"
+        ).send()
+    except subprocess.CalledProcessError as e:
+        error_message = e.stderr.decode().strip()
+        await cl.Message(
+            content="Getting an error. Generating Again😄"
+        ).send()
+        response = generate_code_again(
+            message.content, header_detail_file_location, response, error_message)  # Generated Code
+        if os.path.exists('output_script.py'):
+            # If it exists, delete the file
+            os.remove('output_script.py')
+        with open('output_script.py', 'w') as f:
+            f.write(response)  # Storing generated code in a .py file
+        try:
+            python_interpreter = sys.executable
+            subprocess.run([python_interpreter, 'output_script.py'])
+            await cl.Message(
+                content="Successfully executed the code in second run😊"
+            ).send()
+        except Exception as e:
+            await cl.Message(
+                content="Again Getting error😢. Please modify your prompt"
+            ).send()
+
     image_extensions = ('.png', '.jpg', '.jpeg')
     all_files = os.listdir(os.getcwd())
     image_files = [
