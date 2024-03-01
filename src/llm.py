@@ -1,22 +1,31 @@
 from openai import OpenAI
-from src.prompt import user_instruction
+from src.utils import user_instruction
+from src.prompt import generate_instruction
 
+from src.constants import header_detail_file_location, uploaded_file_location
 client = OpenAI()
-# prompt = "What are total no of nan values present in the column age"
-messages = [
-    {"role": "system", "content": "You are a helpful assistant who will help to genearate python code."},
-    {"role": "user", "content": f"Assume a pandas dataframe which is stored in a variable'df'.Now generate the code for the below task.\
-     \n{user_instruction}. Give me only the python code and necessary libraries that we want to import.\
-     Do not return explanations or comments because your generated code will automatically executed in a python file.\
-        So please avoid any bugs or texts that may create any error"},
-]
 
 
-def ask_order(messages, model="gpt-3.5-turbo", temperature=0):
+def generate_prompt(user_msg, header_detail_file_location, uploaded_file_location):
+    # prompt = "Give me the plot which shows the distribution of column SepalLengthCm"
+    with open(header_detail_file_location, 'r') as file:
+        header_details = file.read().strip()
+        instruction = generate_instruction(
+            user_msg, header_details, uploaded_file_location)
+
+    return instruction
+
+
+def generate_code(user_msg, header_detail_file_location, uploaded_file_location):
+    instruction = generate_prompt(
+        user_msg, header_detail_file_location, uploaded_file_location)
     response = client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=temperature
+        model="gpt-3.5-turbo",
+        temperature=0.7,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant who will help to generate executable python code."},
+            {"role": "user", "content": instruction},
+        ]
     )
 
     return response.choices[0].message.content

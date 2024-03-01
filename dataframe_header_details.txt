@@ -1,0 +1,6 @@
+Id:int64
+SepalLengthCm:float64
+SepalWidthCm:float64
+PetalLengthCm:float64
+PetalWidthCm:float64
+Species:object
