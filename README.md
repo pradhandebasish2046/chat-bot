@@ -1,7 +1,10 @@
 # chat-bot
 
+![untitled (1)](https://github.com/pradhandebasish2046/chat-bot/assets/84903046/d143db5b-bd12-4109-8b50-766a0956a2f7)
+
 
 https://github.com/pradhandebasish2046/chat-bot/assets/84903046/54cacaa3-bef7-48be-99c9-57fbc816510a
+
 
 # Scope of Improvement
 1. Prompt Engineering part to handle error
